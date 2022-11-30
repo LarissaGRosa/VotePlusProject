@@ -5,43 +5,44 @@ import json
 import time
 
 config = {
-        'user': 'root',
-        'password': 'root',
-        'host': 'db',
-        'port': '3306',
-        'database': 'vote_db'
-    }
-   
+    'user': 'root',
+    'password': 'root',
+    'host': 'db',
+    'port': '3306',
+    'database': 'vote_db'
+}
+
+
 # TODO: Arrumar para ter apenas uma conexão com db sempre ativa
 
 def search_elections() -> List[Dict]:
-    
     connection = mysql.connector.connect(**config)
     cursor = connection.cursor()
     time_now = time.time()
     cursor.execute(f'SELECT * FROM Election WHERE timestampEnd >= {time_now}')
-    election_list  = cursor.fetchall()
-    results = [{"id":x[0],"name":x[1], "description":x[2]} for x in election_list]
+    election_list = cursor.fetchall()
+    results = [{"id": x[0], "name": x[1], "description": x[2]} for x in election_list]
     cursor.close()
     connection.close()
     return results
 
+
 def get_election_options(content) -> List[Dict]:
-    
     connection = mysql.connector.connect(**config)
     cursor = connection.cursor()
     election = content['idElection']
     cursor.execute(f'SELECT * FROM VoteOption WHERE idElection = {election}')
-    option_list  = cursor.fetchall()
-    results = [{"id":x[0],"name":x[1], "description":x[3]} for x in option_list]
+    option_list = cursor.fetchall()
+    results = [{"id": x[0], "name": x[1], "description": x[3]} for x in option_list]
     cursor.close()
     connection.close()
     return results
 
+
 def create_election(content):
     connection = mysql.connector.connect(**config)
     cursor = connection.cursor()
-    
+
     val = (content['name'], content['timeEnd'], content['description'])
     sql = '''INSERT INTO Election(name, timestampEnd, description) VALUES (\"%s\", %d, \"%s\")''' % val
     try:

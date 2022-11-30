@@ -2,10 +2,15 @@ version: "2"
 services:
   app:
     build: ./vote_api
+    depends_on:
+      - db
+      - kafka
     links:
       - db
+      - kafka
     ports:
       - "5000:5000"
+
   db:
     image: mysql:5.7
     ports:
@@ -14,3 +19,25 @@ services:
       MYSQL_ROOT_PASSWORD: root
     volumes:
       - ./vote_db:/docker-entrypoint-initdb.d/:ro
+
+  zookeeper:
+    image: confluentinc/cp-zookeeper:latest
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 32181
+      ZOOKEEPER_TICK_TIME: 2000
+    ports:
+      - "32181:32181"
+
+  kafka:
+    image: confluentinc/cp-kafka:latest
+    depends_on:
+      - zookeeper
+    links:
+      - zookeeper
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_ZOOKEEPER_CONNECT: localhost:32181
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://localhost:29092
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+    ports:
+      - "29092:29092"
