@@ -1,6 +1,8 @@
 from vote_api.front.view import *
+from vote_api.src.vote_producer import *
 
 app = Flask(__name__)
+producer = VoteProducer()
 
 
 @app.route('/listElections', methods=['GET'])
@@ -20,4 +22,14 @@ def add_election():
 
 
 if __name__ == '__main__':
+    print("a")
+    producer.send_vote('exemplo', b'votacao1')
+    print("b")
+    producer.send_vote('exemplo', b'votacao2')
+    print("c")
+    producer.send_vote('exemplo', b'votacao1')
+    print("d")
+    producer.send_vote('exemplo', b'votacao3')
+    print("e")
+    producer.send_vote('exemplo', b'votacao1')
     app.run(host='0.0.0.0')
