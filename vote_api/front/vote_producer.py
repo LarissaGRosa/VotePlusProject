@@ -9,7 +9,7 @@ class VoteProducer:
         self.count = 0
 
     def send_vote(self, election, msg):
-        self.producer.send(election, bytes(msg))
+        self.producer.send(election, bytes(msg, encoding='utf-8'))
         self.count += 1
         if self.count > 5:
             self.producer.flush()

@@ -3,6 +3,8 @@ from flask import Flask, request, jsonify
 import mysql.connector
 import json
 import time
+from vote_api.front.vote_producer import VoteProducer
+import time
 
 config = {
     'user': 'root',
@@ -11,7 +13,7 @@ config = {
     'port': '3306',
     'database': 'vote_db'
 }
-
+vote_producer = VoteProducer()
 
 # TODO: Arrumar para ter apenas uma conexão com db sempre ativa
 
@@ -67,3 +69,13 @@ def create_election(content):
         cursor.close()
         connection.close()
         return '', 204
+
+def send_vote(content):
+    election = int(content['idElection'])
+    time_now = time.time()
+    vote_option = int(content['voteOption'])
+    message = {"Election": election,
+                "VoteTime": time_now,
+                "VoteOption": vote_option}
+    vote_producer.send_vote("exemplo", str(message)) #exemplo is the topic and message has the subject of the given election to vote
+    return '', 204
