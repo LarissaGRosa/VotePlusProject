@@ -1,9 +1,6 @@
 from typing import List, Dict
-from flask import Flask, request, jsonify
 import mysql.connector
-import json
-import time
-from vote_api.front.vote_producer import VoteProducer
+from vote_api.src.vote_producer import VoteProducer
 import time
 
 config = {
