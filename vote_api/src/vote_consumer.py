@@ -1,7 +1,15 @@
 from kafka import KafkaConsumer
 
+from vote_api.src.constants import KAFKA_ADDRESS
 
-def consume():
-    c = KafkaConsumer("exemplo", bootstrap_servers='localhost:29092', api_version=(0, 10, 1), group_id='exemplo')
-    for message in c:
+
+def consume(election):
+    consumer = KafkaConsumer(election,
+                             bootstrap_servers=KAFKA_ADDRESS,
+                             api_version=(0, 10, 1),
+                             auto_offset_reset='earliest',
+                             enable_auto_commit=True,
+                             consumer_timeout_ms=500)
+    for message in consumer:
+        #TODO contar candidatos
         print(message.value)
