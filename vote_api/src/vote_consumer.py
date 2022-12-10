@@ -20,23 +20,21 @@ def consume(election):
                              bootstrap_servers=KAFKA_ADDRESS,
                              api_version=(0, 10, 1),
                              auto_offset_reset='earliest',
-                             enable_auto_commit=True,
                              consumer_timeout_ms=500)
     election_info = dict()
     for message in consumer:
 
-        dict = json.loads(message.decode('utf-8'))
-        if dict["VoteOption"] not in list(election_info.keys()):
-            election_info[dict["VoteOption"]] = 1
+        vote = message.decode('utf-8')
+        if vote not in list(election_info.keys()):
+            election_info[vote] = 1
         else:
-            election_info[dict["VoteOption"]] += 1
+            election_info[vote] += 1
 
     for vote_option in list(election_info.key()):
         val = (election_info[vote_option], vote_option)
         sql = '''INSERT INTO Votes(votes, idVoteOption) VALUES (%d, %d)''' % val
-    
-    cursor.execute(sql)
-    connection.commit()
+        cursor.execute(sql)
+        connection.commit()
     cursor.close()
     connection.close()
     

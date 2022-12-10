@@ -1,5 +1,7 @@
 from typing import List, Dict
 import mysql.connector
+
+from vote_api.src.topic_manager import TopicManager
 from vote_api.src.vote_producer import VoteProducer
 import time
 
@@ -39,6 +41,8 @@ def get_election_options(content) -> List[Dict]:
 
 
 def create_election(content):
+    manager = TopicManager()
+    manager.create_topic(content['name'], 3)
     connection = mysql.connector.connect(**config)
     cursor = connection.cursor()
 
@@ -69,10 +73,6 @@ def create_election(content):
 
 def send_vote(content):
     election = int(content['idElection'])
-    time_now = time.time()
     vote_option = int(content['voteOption'])
-    message = {"Election": election,
-                "VoteTime": time_now,
-                "VoteOption": vote_option}
-    vote_producer.send_vote("exemplo", str(message)) #exemplo is the topic and message has the subject of the given election to vote
+    vote_producer.send_vote(election, vote_option)
     return '', 204
