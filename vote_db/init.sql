@@ -23,8 +23,6 @@ idVoteOption INT(10),
 FOREIGN KEY (idVoteOption) REFERENCES VoteOption(id)
 );
 
-
-
 INSERT INTO Election(name, timestampEnd, description) VALUES ("Melhor filme", 1670696286, "Vote no seu filme favorito entre as opções de voto");
 INSERT INTO Election(name, timestampEnd, description) VALUES ("Cor mais amada", 1670696286, "Conte para gente qual cor você gosta mais");
 

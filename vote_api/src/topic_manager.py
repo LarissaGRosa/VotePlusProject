@@ -7,6 +7,7 @@ class TopicManager:
     def __init__(self):
         self.admin_client = KafkaAdminClient(
             bootstrap_servers=KAFKA_ADDRESS,
+            api_version=(0, 10, 1),
             client_id='test'
         )
 

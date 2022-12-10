@@ -1,8 +1,5 @@
 import json
-from urllib import request
-
-from flask import Flask
-from kafka import KafkaConsumer, TopicPartition
+from flask import Flask, request
 
 from vote_api.front.view import *
 from vote_api.src.constants import KAFKA_ADDRESS
@@ -32,6 +29,12 @@ def vote_election():
     content = request.get_json()
     return send_vote(content)
 
+@app.route('/resultElection', methods=['POST'])
+def result_election():
+    content = request.get_json()
+    return get_election_result(content)
+
+
 def exemplo():
     TopicManager().create_topic("exemplo", 3)
     example_producer = VoteProducer()
@@ -42,4 +45,11 @@ def exemplo():
 
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000)
+     while True:
+        try:
+            app.run(host='0.0.0.0', port=5000)
+            break
+        except:
+            time.sleep(100)
+
+   

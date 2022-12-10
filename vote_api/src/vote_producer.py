@@ -8,7 +8,7 @@ class VoteProducer:
                                       api_version=(0, 10, 1))
 
     def send_vote(self, election, msg):
-        self.producer.send(election, bytes(msg, encoding='utf-8'))
+        self.producer.send(election, bytes(str(msg), encoding='utf-8'))
 
     def wait_for_message_delivery(self):
         self.producer.flush()

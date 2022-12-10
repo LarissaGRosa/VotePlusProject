@@ -5,7 +5,7 @@ import mysql.connector
 config = {
     'user': 'root',
     'password': 'root',
-    'host': 'db',
+    'host': 'localhost',
     'port': '3306',
     'database': 'vote_db'
 }
@@ -24,14 +24,15 @@ def consume(election):
     election_info = dict()
     for message in consumer:
 
-        vote = message.decode('utf-8')
+        vote = message.value.decode('UTF-8')
+        print(vote)
         if vote not in list(election_info.keys()):
             election_info[vote] = 1
         else:
             election_info[vote] += 1
 
-    for vote_option in list(election_info.key()):
-        val = (election_info[vote_option], vote_option)
+    for vote_option in list(election_info.keys()):
+        val = (int(election_info[vote_option]), int(vote_option))
         sql = '''INSERT INTO Votes(votes, idVoteOption) VALUES (%d, %d)''' % val
         cursor.execute(sql)
         connection.commit()
