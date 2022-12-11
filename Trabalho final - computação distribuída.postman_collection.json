@@ -1,0 +1,136 @@
+{
+	"info": {
+		"_postman_id": "a90e7710-db11-4d79-8c08-81dfa75992dc",
+		"name": "Trabalho final - computação distribuída",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "18496366"
+	},
+	"item": [
+		{
+			"name": "Get Open Elections",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:5000/listElections",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"listElections"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Election",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"Melhor linguagem de programação\",\n    \"description\": \"Qual linguagem de programação tem mais coisas positivas\",\n    \"timeEnd\": 1670696286,\n    \"options\":[\n        {\"name\": \"C\",\n        \"description\":\"Ponteiros e velocidade\" \n        },\n        {\"name\": \"Python\",\n        \"description\":\"Facilidade de entender e utilizar\" \n        }\n    ]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:5000/createElection",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"createElection"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Election options",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"idElection\": 9}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:5000/getElectionOptions",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"getElectionOptions"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "vote Election",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"voteOption\": 1, \"name\":\"Melhor linguagem de programação\"}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:5000/voteElection",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"voteElection"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get Election result",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"name\":\"Melhor linguagem de programação\"}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:5000/voteElection",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"voteElection"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

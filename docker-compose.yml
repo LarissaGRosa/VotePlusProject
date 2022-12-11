@@ -2,12 +2,8 @@ version: "2"
 services:
   app:
     build: ./vote_api
+    network_mode: host
     depends_on:
-      - db
-      - kafka1
-      - kafka2
-      - kafka3
-    links:
       - db
       - kafka1
       - kafka2

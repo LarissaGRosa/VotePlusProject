@@ -23,8 +23,8 @@ idVoteOption INT(10),
 FOREIGN KEY (idVoteOption) REFERENCES VoteOption(id)
 );
 
-INSERT INTO Election(name, timestampEnd, description) VALUES ("Melhor filme", 1670696286, "Vote no seu filme favorito entre as opções de voto");
-INSERT INTO Election(name, timestampEnd, description) VALUES ("Cor mais amada", 1670696286, "Conte para gente qual cor você gosta mais");
+INSERT INTO Election(name, timestampEnd, description) VALUES ("Melhor filme", 1670884201, "Vote no seu filme favorito entre as opções de voto");
+INSERT INTO Election(name, timestampEnd, description) VALUES ("Cor mais amada", 1670884201, "Conte para gente qual cor você gosta mais");
 
 INSERT INTO VoteOption(name, description, idElection) VALUES ("Harry Potter e a camara secreta", "Segundo filme da saga Harry Potter", 1);
 INSERT INTO VoteOption(name, description, idElection) VALUES ("O iluminado", "Filme de terror", 1);

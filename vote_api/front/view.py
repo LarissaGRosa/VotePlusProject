@@ -83,16 +83,28 @@ def send_vote(content):
 
 def get_election_result(content):
     election = content['name']
-    hash_name = hashlib.sha256(content['name'].encode('UTF-8'))
-    p = Process(target=consume, args=(hash_name.hexdigest(),))
-    p.start()
-    p.join()
     connection = mysql.connector.connect(**config)
     cursor = connection.cursor()
+    cursor.execute(f'SELECT timestampEnd FROM Election WHERE Election.name = "{election}"')
+    election_time = cursor.fetchall()
+    time_now = time.time()
+
+    if (election_time and election_time[0][0] > time_now):
+        return "Eleição em andamento"
+
     cursor.execute(f'SELECT v.votes, vo.description FROM Election e, VoteOption vo, Votes v WHERE e.id = vo.idElection and vo.id = v.idVoteOption and e.name = "{election}"')
     option_list = cursor.fetchall()
-    results = [{"votes": x[0], "description": x[1]} for x in option_list]
+    option_size = cursor.rowcount
     cursor.close()
     connection.close()
+
+    if(option_size == 0):
+        hash_name = hashlib.sha256(content['name'].encode('UTF-8'))
+        p = Process(target=consume, args=(hash_name.hexdigest(),))
+        p.start()
+        return "Eleição está em contagem"
+
+    results = [{"votes": x[0], "description": x[1]} for x in option_list]
+   
     return results
     
